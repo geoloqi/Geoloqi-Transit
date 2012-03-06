@@ -1,0 +1,6 @@
+development:
+  database_url:
+  geoloqi_client_id:
+  geoloqi_client_secret:
+  callback_url:
+  
