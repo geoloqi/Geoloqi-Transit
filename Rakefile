@@ -20,6 +20,8 @@ namespace :db do
   task :bootstrap do
     init_env_for_migrations
 
+    DB.loggers = []
+
     unless %w{development test}.include? ENV['RACK_ENV'].to_s
       puts "You cannot run db:bootstrap on production for safety reasons."
       exit 1
@@ -31,7 +33,16 @@ namespace :db do
     Dir.require_multiple 'models'
     init_env
     
-    create_agency 'austin', './files/gtfs/austin'
+    puts "Deleting existing points: "
+    
+    session = Geoloqi::Session.new :config => {client_id: $config.geoloqi_client_id,
+                                               client_secret: $config.geoloqi_client_secret},
+                                   :access_token => ''
+    
+    Agency.create 'austin', './files/gtfs/austin'
+
+    gtfs_austin = Geoloqi::GTFS.new 'austin', './files/gtfs'
+    gtfs_austin.load_into_database!
   end
 
   desc 'migrate the database to the latest revision'

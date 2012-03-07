@@ -31,8 +31,7 @@ Sequel.migration do
       Integer     :agency_id
       Integer     :stop_id
       Integer     :trip_id
-      Time        :arrival_time
-      
+      column      :arrival_time, :time
       Time        :date_created
       Time        :date_modified
       Boolean     :is_deleted, default: false

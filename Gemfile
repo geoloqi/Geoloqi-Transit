@@ -9,6 +9,7 @@ gem 'hashie',          '1.2.0'
 gem 'geoloqi',         '0.9.38'
 gem 'sinatra-geoloqi', '0.9.3'
 gem 'mysql2',          '0.3.11'
+gem 'geokit',          '1.6.5'
 
 group :development do
   gem 'shotgun', require: nil
