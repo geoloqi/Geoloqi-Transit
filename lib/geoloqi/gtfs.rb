@@ -73,14 +73,49 @@ module Geoloqi
 
         Kernel.print "#{t[2]}, "
       end
-      
+
       Kernel.print " done!\n"
     end
     
-    
+=begin
+# TODO THIS IS NOT IMPLEMENTED YET
+    def load_services
+      Kernel.print 'Import trip times...'
+      Service.filter(agency: @agency).destroy
+
+      foreach 'services' do |s|
+        @agency.add_service({
+          
+        })
+
+        Kernel.print "#{s[2]}, "
+      end
+
+      Kernel.print " done!\n"
+    end
+=end
+
+    def load_routes
+      Kernel.print 'Import trip times...'
+      Route.filter(agency: @agency).destroy
+
+      foreach 'routes' do |r|
+        @agency.add_route({
+          uid:        r[0],
+          name:       r[2]
+        })
+
+        Kernel.print "#{t[2]}, "
+      end
+
+      Kernel.print " done!\n"
+    end
 
     def load_into_database!
+      load_stops
       load_stop_times
+      load_trips
+      load_routes
     end
 
   end

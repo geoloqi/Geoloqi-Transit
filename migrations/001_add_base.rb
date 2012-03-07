@@ -62,6 +62,7 @@ Sequel.migration do
     end
 
 =begin
+# This is connected to calendars.txt, it shows when routes will be open.. or something
     DB.create_table :services do
       primary_key :id      
     end
