@@ -21,7 +21,6 @@ module Geoloqi
       end
     end
 
-
     def load_stops
       Kernel.print 'Importing stops...'
 
@@ -34,33 +33,51 @@ module Geoloqi
           desc: srow[3].smart_titleize,
           lat:  srow[4],
           lng:  srow[5]}) if stop.nil?
-        
-        print "#{srow[0].to_s}, "
+
+        # print "#{srow[0].to_s}, "
       end
 
       Kernel.print " done!\n"
     end
     
     def load_stop_times
-      Kernel.print 'Import stop times...'
+      Kernel.print 'Importings stop times...'
 
       StopTime.filter(agency: @agency).destroy
 
       foreach 'stop_times' do |s|
+        attempt = 0
 
-        @agency.add_stop_time({
-          stop_id:      s[3],
-          trip_id:      s[0],
-          arrival_time: s[1]
-        })
+        stop_time = StopTime.new agency: @agency
+        begin
+          stop_time.set({
+            stop_id: s[3],
+            trip_id: s[0],
+            arrival_time: s[1]
+          })
+          stop_time.save
+        rescue => e
+          if e.message.match /argument out of range/
+            if attempt == 0
+              attempt = 1
 
-        print "#{s[0].to_s}, "
+              # Some times are past midnight (ex: "25:00:13"), so let's try to fix that.
+
+              stop_time.next_day = true
+              s[1].match(/^\d+/) {|h| s[1].gsub! /^\d+/, (h.to_s.to_i-24).to_s}
+              retry
+            else
+              fail
+            end
+          end
+        end
+
       end
       Kernel.print " done!\n"
     end
 
     def load_trips
-      Kernel.print 'Import trip times...'
+      Kernel.print 'Importing trip times...'
       Trip.filter(agency: @agency).destroy
 
       foreach 'trips' do |t|
@@ -71,12 +88,12 @@ module Geoloqi
           direction:  t[3]
         })
 
-        Kernel.print "#{t[2]}, "
+        # Kernel.print "#{t[2]}, "
       end
 
       Kernel.print " done!\n"
     end
-    
+
 =begin
 # TODO THIS IS NOT IMPLEMENTED YET
     def load_services
@@ -96,26 +113,26 @@ module Geoloqi
 =end
 
     def load_routes
-      Kernel.print 'Import trip times...'
+      Kernel.print 'Importing route times...'
       Route.filter(agency: @agency).destroy
 
       foreach 'routes' do |r|
         @agency.add_route({
           uid:        r[0],
-          name:       r[2]
+          name:       r[3].smart_titleize
         })
 
-        Kernel.print "#{t[2]}, "
+        # Kernel.print "#{r[2]}, "
       end
 
       Kernel.print " done!\n"
     end
 
     def load_into_database!
-      load_stops
-      load_stop_times
-      load_trips
-      load_routes
+     load_stops
+     load_stop_times
+     load_trips
+     load_routes
     end
 
   end
