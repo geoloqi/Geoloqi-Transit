@@ -98,14 +98,22 @@ exit
           else
             place = post "place/update/#{place[:place_id]}", place_args
           end
-        
+
           Kernel.print "#{place_args[:name]}, "
         end
 
       end
       
+      app_session.post 'trigger/create', {
+        layer_id: layer[:layer_id],
+        type: 'callback',
+        callback: $config.trigger_url,
+        trigger_after: 20
+      }
+
+=begin
       puts "TRIGGERS:"
-      
+
       triggers_resp = app_session.batch do
         places_resp.each do |p|
           triggers = app_session.get("trigger/list?place_id=#{p[:body][:place_id]}")[:triggers]
@@ -128,7 +136,8 @@ exit
       require 'ruby-debug' ; debugger
       
       # Add triggers to places.
-      
+=end
+
       puts 'DONE.'
     end
   end
