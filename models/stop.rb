@@ -1,4 +1,5 @@
 class Stop < Sequel::Model
+  unrestrict_primary_key
   many_to_one :agency
   set_primary_key [:agency_id, :uid]
 
@@ -12,7 +13,7 @@ class Stop < Sequel::Model
       route = stop_time.trip.route
       messages << "#{route.uid} #{route.name} scheduled in #{stop_time.arrival_time_english}"
     end
-    upcoming_stop_times.first.trip.route.name
+    #upcoming_stop_times.first.trip.route.name this is old i think
     messages.join ', '
   end
 

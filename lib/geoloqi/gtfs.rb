@@ -134,6 +134,5 @@ module Geoloqi
      load_trips
      load_routes
     end
-
   end
 end

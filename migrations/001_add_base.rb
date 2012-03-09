@@ -1,14 +1,15 @@
 Sequel.migration do
   up {
     DB.create_table :agencies do
-      String      :name, primary_key: true
+      primary_key :id
+      String      :name
       String      :real_name
       String      :url
       String      :time_zone
 
       Time        :date_created
       Time        :date_modified
-      Boolean     :is_deleted, default: false
+      Boolean     :is_deleted,   default: false
     end
 
     DB.create_table :stops do
@@ -21,7 +22,7 @@ Sequel.migration do
 
       Time        :date_created
       Time        :date_modified
-      Boolean     :is_deleted, default: false
+      Boolean     :is_deleted,    default: false
 
       index       :agency_id
       index       :uid
@@ -31,11 +32,11 @@ Sequel.migration do
       Integer     :agency_id
       Integer     :stop_id
       Integer     :trip_id
-      column      :arrival_time, :time
-      Boolean     :next_day, default: false
+      Time        :arrival_time, only_time: true
+      Boolean     :next_day,     default: false
       Time        :date_created
       Time        :date_modified
-      Boolean     :is_deleted, default: false
+      Boolean     :is_deleted,   default: false
 
       index       :agency_id
       index       :stop_id
@@ -51,7 +52,7 @@ Sequel.migration do
 
       Time        :date_created
       Time        :date_modified
-      Boolean     :is_deleted, default: false
+      Boolean     :is_deleted,    default: false
 
       index       :agency_id
       index       :uid
@@ -66,7 +67,7 @@ Sequel.migration do
 
       Time        :date_created
       Time        :date_modified
-      Boolean     :is_deleted, default: false
+      Boolean     :is_deleted,    default: false
 
       index       :agency_id
       index       :uid

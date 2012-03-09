@@ -22,10 +22,10 @@ namespace :db do
 
     DB.loggers = []
 
-    unless %w{development test}.include? ENV['RACK_ENV'].to_s
-      puts "You cannot run db:bootstrap on production for safety reasons."
-      exit 1
-    end
+#    unless %w{development test}.include? ENV['RACK_ENV'].to_s
+#      puts "You cannot run db:bootstrap on production for safety reasons."
+#      exit 1
+#    end
 
     Sequel::Migrator.apply DB, './migrations', 0
     Sequel::Migrator.apply DB, './migrations'
