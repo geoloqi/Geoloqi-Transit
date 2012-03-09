@@ -20,7 +20,7 @@ GEM
     i18n (0.6.0)
     json (1.6.5)
     kgio (2.7.2)
-    linecache19 (0.5.13)
+    linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     mime-types (1.17.2)
     minitest (2.7.0)
@@ -40,7 +40,7 @@ GEM
     rake (0.9.2.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    ruby-debug-base19 (0.11.26)
+    ruby-debug-base19 (0.11.25)
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
       ruby_core_source (>= 0.1.4)
@@ -81,7 +81,6 @@ DEPENDENCIES
   geokit (= 1.6.5)
   geoloqi (= 0.9.38)
   hashie (= 1.2.0)
-  linecache19 (>= 0.5.13)
   minitest (= 2.7.0)
   multi_json (= 1.0.4)
   mysql2 (= 0.3.11)
@@ -89,7 +88,6 @@ DEPENDENCIES
   rainbows (= 4.3.1)
   rake (= 0.9.2.2)
   rest-client (= 1.6.7)
-  ruby-debug-base19 (>= 0.11.26)
   ruby-debug19
   sequel (= 3.33.0)
   shotgun
