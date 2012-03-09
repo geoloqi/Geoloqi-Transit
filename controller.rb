@@ -1,6 +1,6 @@
 
 require './environment.rb'
 
-post '/lookup/austin' do
-  
+post '/trigger' do
+  puts params.inspect
 end
