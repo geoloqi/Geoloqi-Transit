@@ -18,6 +18,8 @@ class Stop < Sequel::Model
   end
 
   def upcoming_stop_times
-    stop_times_dataset.filter(agency: agency).filter('arrival_time > ?', Time.now).limit(3).all
+ #   stop_times_dataset.filter(agency: agency).filter('arrival_time > ?', Time.now).limit(3).all
+    stop_times_dataset.filter('arrival_time > ?', 
+      Time.at(Time.now.utc + Time.zone_offset(TZInfo::Timezone.get(agency.time_zone).current_period.offset.abbreviation.to_s))).limit(3).all
   end
 end

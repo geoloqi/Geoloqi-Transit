@@ -19,9 +19,8 @@ class Agency < Sequel::Model
                      real_name: real_name,
                      url:       acsv[2],
                      time_zone: acsv[3])
-puts "NOT IMPORTING TO GEOLOQI"
-return
-exit
+
+      puts "IMPORTING TO GEOLOQI"
       app_session = Geoloqi::Session.application
 
       # Get the geocoded center location for the layer.
@@ -81,7 +80,7 @@ exit
             name: "#{stop_name} (Stop ID #{stop[0]})",
             layer_id: layer[:layer_id],
             description: stop_desc,
-            radius: stop_name.match(/max/i) ? 25 : 12,
+            radius: 25,
             extra: {
               stop_id: stop_id
             }

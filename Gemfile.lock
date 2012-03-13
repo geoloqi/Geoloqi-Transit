@@ -65,6 +65,7 @@ GEM
       geoloqi (>= 0.9.36)
       sinatra (>= 1.0)
     tilt (1.3.3)
+    tzinfo (0.3.31)
     unicorn (4.2.0)
       kgio (~> 2.6)
       rack
@@ -94,4 +95,5 @@ DEPENDENCIES
   simplecov (= 0.5.4)
   sinatra (= 1.3.2)
   sinatra-geoloqi (= 0.9.3)
+  tzinfo (= 0.3.31)
   webmock (= 1.7.7)

@@ -10,10 +10,13 @@ post '/trigger' do
   session = Geoloqi::Session.new({
     client_id: $config.geoloqi_client_id,
     client_secret: $config.geoloqi_client_secret,
-    geoloqi_application_access_token: $config.geoloqi_application_access_token
+    access_token: $config.geoloqi_application_access_token
   })
-puts "SENDING MESSAGE"
-puts "FOR STOP: #{stop.inspect}"
+
+puts "STOP: #{stop.inspect}"
+puts "USER: #{payload.user.user_id}"
+puts "TEXT: #{stop.upcoming_times_message}"
+
   session.post 'message/send', {
     layer_id: payload.layer.layer_id,
     user_id:  payload.user.user_id,
