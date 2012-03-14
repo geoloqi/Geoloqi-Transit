@@ -88,7 +88,6 @@ class Agency < Sequel::Model
 
     # Create/update places.
 
-    app_session = self.app_session
     geoloqi_layer_id = self.geoloqi_layer_id
 
     places_resp = app_session.batch do
@@ -118,7 +117,7 @@ class Agency < Sequel::Model
         }
 
         begin
-          place = app_session.get("place/info", key: place_key, layer_id: geoloqi_layer_id)[:place]
+          place = Geoloqi::Session.application.get("place/info", key: place_key, layer_id: geoloqi_layer_id)
         rescue Geoloqi::ApiError => e
           e.type == 'not_found' ? place = nil : fail
         end
@@ -128,8 +127,8 @@ class Agency < Sequel::Model
         else
           place = post "place/update/#{place[:place_id]}", place_args
         end
-
-        Kernel.print "#{place_args[:name]}, "
+        
+        Kernel.print "#{place.nil? ? 'CREATING' : 'UPDATING'} #{place_args[:name]}, "
       end
 
     end
