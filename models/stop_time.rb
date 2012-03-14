@@ -9,9 +9,9 @@ class StopTime < Sequel::Model
 
   # schedule to arrive in FILL_IN
   def arrival_time_english
- #   time_now = Time.now
-    time_now = Time.at(Time.now.utc + Time.zone_offset(TZInfo::Timezone.get(agency.time_zone).current_period.offset.abbreviation.to_s))
-    arrives_in = Time.parse(arrival_time.strftime('%H:%M:%S')) - time_now
+    time_now = TZInfo::Timezone.get(agency.time_zone).utc_to_local Time.now.utc
+    arrives_in = Time.parse(arrival_time.strftime('%H:%M:%S UTC')) - time_now
+    arrives_in += ONE_DAY if next_day == true
 
     if arrives_in <= ONE_MINUTE
       return 'less than a minute'
