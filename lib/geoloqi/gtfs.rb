@@ -62,8 +62,6 @@ module Geoloqi
               attempt = 1
 
               # Some times are past midnight (ex: "25:00:13"), so let's try to fix that.
-
-              stop_time.next_day = true
               s[1].match(/^\d+/) {|h| s[1].gsub! /^\d+/, (h.to_s.to_i-24).to_s}
               retry
             else

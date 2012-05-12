@@ -1,4 +1,5 @@
 ENV['RACK_ENV'] ||= 'development'
+
 Encoding.default_internal = 'UTF-8'
 require 'bundler/setup'
 Bundler.require

@@ -6,7 +6,6 @@ route_id,route_short_name,route_long_name,route_type,route_url
 9,9,Powell/Broadway,3,http://trimet.org/schedules/r009.htm
 10,10,Harold St,3,http://trimet.org/schedules/r010.htm
 12,12,Barbur/Sandy Blvd,3,http://trimet.org/schedules/r012.htm
-13,,Washington Park Shuttle,3,http://trimet.org/schedules/r013.htm
 14,14,Hawthorne,3,http://trimet.org/schedules/r014.htm
 15,15,Belmont/NW 23rd,3,http://trimet.org/schedules/r015.htm
 16,16,Front Ave/St Johns,3,http://trimet.org/schedules/r016.htm
@@ -66,6 +65,7 @@ route_id,route_short_name,route_long_name,route_type,route_url
 80,80,Kane/Troutdale Rd,3,http://trimet.org/schedules/r080.htm
 81,81,Kane/257th,3,http://trimet.org/schedules/r081.htm
 82,82,Eastman/182nd,3,http://trimet.org/schedules/r082.htm
+83,83,Washington Park Loop,3,http://trimet.org/schedules/r083.htm
 84,84,Kelso/Boring,3,http://trimet.org/schedules/r084.htm
 85,85,Swan Island,3,http://trimet.org/schedules/r085.htm
 87,87,Airport Way/181st,3,http://trimet.org/schedules/r087.htm
@@ -76,10 +76,8 @@ route_id,route_short_name,route_long_name,route_type,route_url
 93,,Vintage Trolley,0,http://trimet.org/schedules/r093.htm
 94,94,Sherwood/Pacific Hwy Express,3,http://trimet.org/schedules/r094.htm
 96,96,Tualatin/I-5,3,http://trimet.org/schedules/r096.htm
-98,,MAX Shuttle,3,http://trimet.org/schedules/r098.htm
 99,99,McLoughlin Express,3,http://trimet.org/schedules/r099.htm
 100,,MAX Blue Line,0,http://trimet.org/schedules/r100.htm
-116,,Marine Drive Shuttle,3,http://trimet.org/schedules/r116.htm
 152,152,Milwaukie,3,http://trimet.org/schedules/r152.htm
 154,154,Willamette,3,http://trimet.org/schedules/r154.htm
 155,155,Sunnyside,3,http://trimet.org/schedules/r155.htm

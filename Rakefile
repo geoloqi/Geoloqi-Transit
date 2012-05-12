@@ -43,6 +43,9 @@ namespace :db do
 
     gtfs_austin = Geoloqi::GTFS.new 'austin', './files/gtfs'
     gtfs_austin.load_into_database!
+    
+    gtfs_portland = Geoloqi::GTFS.new 'portland', './files/gtfs'
+    gtfs_portland.load_into_database!
   end
 
   desc 'migrate the database to the latest revision'
