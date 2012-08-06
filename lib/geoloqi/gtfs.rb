@@ -30,7 +30,7 @@ module Geoloqi
         @agency.add_stop({
           uid:  srow[0], 
           name: srow[2].smart_titleize, 
-          desc: srow[3].smart_titleize,
+          desc: (srow[3].nil? ? nil : srow[3].smart_titleize),
           lat:  srow[4],
           lng:  srow[5]}) if stop.nil?
 
@@ -117,6 +117,7 @@ module Geoloqi
       foreach 'routes' do |r|
         @agency.add_route({
           uid:        r[0],
+          short_name: r[2].strip,
           name:       r[3].smart_titleize
         })
 
@@ -128,9 +129,9 @@ module Geoloqi
 
     def load_into_database!
      load_stops
-     load_stop_times
-     load_trips
      load_routes
+     load_trips
+     load_stop_times
     end
   end
 end

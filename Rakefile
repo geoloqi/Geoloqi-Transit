@@ -39,13 +39,17 @@ namespace :db do
                                                client_secret: $config.geoloqi_client_secret},
                                    :access_token => ''
     
-    Agency.create 'austin', './files/gtfs/austin'
+    #Agency.create 'austin', './files/gtfs/austin'
+    Agency.create 'miami_dade', './files/gtfs/miami_dade'
 
-    gtfs_austin = Geoloqi::GTFS.new 'austin', './files/gtfs'
-    gtfs_austin.load_into_database!
+    #gtfs_austin = Geoloqi::GTFS.new 'austin', './files/gtfs'
+    #gtfs_austin.load_into_database!
     
-    gtfs_portland = Geoloqi::GTFS.new 'portland', './files/gtfs'
-    gtfs_portland.load_into_database!
+    #gtfs_portland = Geoloqi::GTFS.new 'portland', './files/gtfs'
+    #gtfs_portland.load_into_database!
+
+    gtfs_miami_dade = Geoloqi::GTFS.new 'miami_dade', './files/gtfs'
+    gtfs_miami_dade.load_into_database!
   end
 
   desc 'migrate the database to the latest revision'

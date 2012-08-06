@@ -11,16 +11,11 @@ gem 'sinatra-geoloqi', '0.9.3'
 gem 'mysql2',          '0.3.11'
 gem 'geokit',          '1.6.5'
 gem 'tzinfo',          '0.3.31'
+gem 'pry'
 
 group :development do
   gem 'shotgun', require: nil
-
-  # You may need to type this into your shell for ruby-debug:
-  # bundle config build.ruby-debug-base19 --with-ruby-include=$rvm_path/src/ruby-1.9.3-p0
-  # Source: http://stackoverflow.com/questions/8087610/ruby-debug-with-ruby-1-9-3
-#  gem 'linecache19',       '>= 0.5.13'
-#  gem 'ruby-debug-base19', '>= 0.11.26'
-  gem 'ruby-debug19'
+  gem 'debugger', require: nil
 end
 
 group :test do

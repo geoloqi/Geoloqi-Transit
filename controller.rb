@@ -5,7 +5,7 @@ post '/trigger' do
 
   stop_id = payload.place.extra.stop_id
   puts "STOP ID: #{stop_id}"
-  stop = Stop[agency: Agency[name: 'austin'], uid: stop_id] # TODO: Put agency in extra
+  stop = Stop[agency: Agency[name: 'miami_dade'], uid: stop_id] # TODO: Put agency in extra
 
   session = Geoloqi::Session.new({
     client_id: $config.geoloqi_client_id,

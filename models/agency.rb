@@ -21,8 +21,8 @@ class Agency < Sequel::Model
                      time_zone: acsv[3])
     end
     
-    agency.import_geoloqi_layer
-    agency.import_geoloqi_places gtfs_path
+    #agency.import_geoloqi_layer
+    #agency.import_geoloqi_places gtfs_path
   end
 
   def app_session
@@ -101,7 +101,7 @@ class Agency < Sequel::Model
 
         stop_id = stop[0]
         stop_name = stop[2].smart_titleize
-        stop_desc = stop[3].smart_titleize
+        stop_desc = stop[3].smart_titleize unless stop[3].nil?
         place_key = "name#{stop_id}"
         place_args = {
           key: place_key,

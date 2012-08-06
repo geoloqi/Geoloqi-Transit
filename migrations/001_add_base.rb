@@ -32,7 +32,8 @@ Sequel.migration do
       Integer     :agency_id
       Integer     :stop_id
       Integer     :trip_id
-      Time        :arrival_time, only_time: true
+      add_column  :arrival_time, type: 'time'
+      #Time        :arrival_time, only_time: true
       Boolean     :next_day,     default: false
       Time        :date_created
       Time        :date_modified
@@ -73,12 +74,21 @@ Sequel.migration do
       index       :uid
     end
 
-=begin
 # This is connected to calendars.txt, it shows when routes will be open.. or something
+
     DB.create_table :services do
-      primary_key :id      
+      String :uid, primary_key: true
+      Boolean :monday
+      Boolean :tuesday
+      Boolean :wednesday
+      Boolean :thursday
+      Boolean :friday
+      Boolean :saturday
+      Boolean :sunday
+      column :start_date, 'date'
+      column :end_date,   'date'
+      index :uid
     end
-=end
 
   }
 
