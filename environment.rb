@@ -12,7 +12,7 @@ end
 
 $config = Hashie::Mash.new YAML.load_file('./config.yml')[ENV['RACK_ENV'].to_s]
 
-DB = Sequel.connect $config.database_url, max_connections: 4, encoding: 'utf8'
+DB = Sequel.connect $config.database_url, max_connections: 20, encoding: 'utf8'
 
 require_folders = %w{lib/**}
 

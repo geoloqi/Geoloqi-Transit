@@ -21,8 +21,9 @@ class Agency < Sequel::Model
                      time_zone: acsv[3])
     end
     
-    #agency.import_geoloqi_layer
-    #agency.import_geoloqi_places gtfs_path
+    puts "YOU NEED TO RUN THE IMPORTER NOW"
+    agency.import_geoloqi_layer
+    agency.import_geoloqi_places gtfs_path
   end
 
   def app_session
@@ -47,16 +48,15 @@ class Agency < Sequel::Model
     # Check for existing
     layer = app_session.get('layer/list')[:layers].select {|l| l[:name] == real_name}.first
 
-=begin
-# Deleting 
-      places = app_session.get("place/list?layer_id=#{layer[:layer_id]}&limit=3000")[:places]
 
-      app_session.batch do
-        places.each {|p| post "place/delete/#{p[:place_id]}"}
-      end
-      puts "DUH?"
-      exit
-=end
+    # Deleting start
+    places = app_session.get("place/list?layer_id=#{layer[:layer_id]}&limit=3000")[:places]
+
+    app_session.batch do
+      places.each {|p| post "place/delete/#{p[:place_id]}"}
+    end
+    # Deleting end
+
 
     if layer.nil?
       layer = app_session.post 'layer/create', layer_args
@@ -110,7 +110,7 @@ class Agency < Sequel::Model
           name: "#{stop_name} (Stop ID #{stop[0]})",
           layer_id: geoloqi_layer_id,
           description: stop_desc,
-          radius: 25,
+          radius: Stop::ARBITRARY_RADIUS,
           extra: {
             stop_id: stop_id
           }

@@ -32,19 +32,17 @@ namespace :db do
 
     Dir.require_multiple 'models'
     init_env
-    
-    puts "Deleting existing points: "
-    
+
     session = Geoloqi::Session.new :config => {client_id: $config.geoloqi_client_id,
                                                client_secret: $config.geoloqi_client_secret},
                                    :access_token => ''
-    
+
     #Agency.create 'austin', './files/gtfs/austin'
     Agency.create 'miami_dade', './files/gtfs/miami_dade'
 
     #gtfs_austin = Geoloqi::GTFS.new 'austin', './files/gtfs'
     #gtfs_austin.load_into_database!
-    
+
     #gtfs_portland = Geoloqi::GTFS.new 'portland', './files/gtfs'
     #gtfs_portland.load_into_database!
 

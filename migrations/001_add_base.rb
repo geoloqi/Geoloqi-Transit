@@ -65,6 +65,7 @@ Sequel.migration do
       Integer     :agency_id
       Integer     :uid
       String      :name
+      String      :short_name
 
       Time        :date_created
       Time        :date_modified
@@ -98,7 +99,6 @@ Sequel.migration do
     DB.drop_table :stop_times
     DB.drop_table :trips
     DB.drop_table :routes
-
-    # DB.drop_table :services
+    DB.drop_table :services
   }
 end

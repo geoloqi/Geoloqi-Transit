@@ -1,4 +1,6 @@
 class Stop < Sequel::Model
+  ARBITRARY_RADIUS = 50
+
   unrestrict_primary_key
   many_to_one :agency
   set_primary_key [:agency_id, :uid]
