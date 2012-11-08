@@ -48,7 +48,7 @@ Sequel.migration do
       Integer     :agency_id
       Integer     :uid
       Integer     :route_id
-      Integer     :service_id
+      String      :service_id
       String      :direction
 
       Time        :date_created
@@ -78,7 +78,8 @@ Sequel.migration do
 # This is connected to calendars.txt, it shows when routes will be open.. or something
 
     DB.create_table :services do
-      String :uid, primary_key: true
+      String  :uid, primary_key: true
+      Integer :agency_id
       Boolean :monday
       Boolean :tuesday
       Boolean :wednesday
@@ -88,6 +89,7 @@ Sequel.migration do
       Boolean :sunday
       column :start_date, 'date'
       column :end_date,   'date'
+      Boolean :is_deleted, default: false
       index :uid
     end
 

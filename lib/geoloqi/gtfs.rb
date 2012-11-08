@@ -9,7 +9,7 @@ module Geoloqi
       @name = name
       @gtfs_path = gtfs_path
       @agency = Agency[name: @name]
-      
+
       @pool = Pool.new 15
     end
 
@@ -37,8 +37,8 @@ module Geoloqi
 
         @pool.schedule do
           @agency.add_stop({
-            uid:  srow[0], 
-            name: srow[2].smart_titleize, 
+            uid:  srow[0],
+            name: srow[2].smart_titleize,
             desc: (srow[3].nil? ? nil : srow[3].smart_titleize),
             lat:  srow[4],
             lng:  srow[5]}) if stop.nil?
@@ -49,7 +49,7 @@ module Geoloqi
 
       Kernel.print " done!\n"
     end
-    
+
     def load_stop_times
       Kernel.print 'Importing stop times...'
 
@@ -93,8 +93,8 @@ module Geoloqi
       Trip.filter(agency: @agency).destroy
 
       foreach 'trips' do |t|
-        
-        @pool.schedule do  
+
+        @pool.schedule do
           @agency.add_trip({
             uid:        t[2],
             route_id:   t[0],
@@ -121,6 +121,7 @@ module Geoloqi
 
       foreach 'calendar' do |s|
         @agency.add_service({
+          agency:     @agency,
           uid:        s[0],
           monday:     s[1],
           tuesday:    s[2],

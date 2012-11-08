@@ -51,21 +51,27 @@ class Agency < Sequel::Model
     # If layer exists, delete existing places.
 
     if layer.nil?
+      puts "CREATING NEW LAYER: #{layer_args.inspect}"
       layer = app_session.post 'layer/create', layer_args
     else
+      puts "UPDATING LAYER: #{layer_args.inspect}"
       layer = app_session.post "layer/update/#{layer[:layer_id]}", layer_args
 
+      puts "GETTING AND DELETING PLACES FROM EXISTING LAYER"
       places = app_session.get("place/list?layer_id=#{layer[:layer_id]}&limit=3000")[:places]
 
       app_session.batch do
         places.each {|p| post "place/delete/#{p[:place_id]}"}
       end
 
+      puts "GETTING AND DELETING TRIGGER(S) FROM EXISTING LAYER"
       layer_triggers = app_session.get('trigger/list', layer_id: layer[:layer_id])[:triggers]
 
       layer_triggers.each do |t|
         app_session.post "trigger/delete/#{t[:trigger_id]}"
       end
+
+      puts "CREATING GLOBAL LAYER TRIGGER"
 
       app_session.post 'trigger/create', {
         layer_id: layer[:layer_id],
@@ -83,12 +89,13 @@ class Agency < Sequel::Model
   def import_geoloqi_places(gtfs_path)
     first_row = true
     puts ''
+    @mutex = Mutex.new
 
     # Create/update places.
 
     geoloqi_layer_id = self.geoloqi_layer_id
 
-    places_resp = app_session.batch do
+    app_session.batch do
 
       CSV.foreach(File.join(gtfs_path, 'stops.txt')) do |stop|
 
@@ -114,21 +121,10 @@ class Agency < Sequel::Model
           }
         }
 
-        begin
-          place = Geoloqi::Session.application.get("place/info", key: place_key, layer_id: geoloqi_layer_id)
-        rescue Geoloqi::ApiError => e
-          e.type == 'not_found' ? place = nil : fail
-        end
+        Kernel.print "CREATING #{place_args[:name]}, "
 
-        if place.nil?
-          place = post 'place/create', place_args
-        else
-          place = post "place/update/#{place[:place_id]}", place_args
-        end
-
-        Kernel.print "#{place.nil? ? 'CREATING' : 'UPDATING'} #{place_args[:name]}, "
+        post 'place/create', place_args
       end
-
     end
 
     puts 'DONE.'
