@@ -15,12 +15,12 @@ class Agency < Sequel::Model
     if agency.nil?
       acsv = CSV.read(File.join(gtfs_path, 'agency.txt')).last
       real_name = acsv[1]
-      agency = super(name: name, 
+      agency = super(name: name,
                      real_name: real_name,
                      url:       acsv[2],
                      time_zone: acsv[3])
     end
-    
+
     puts "YOU NEED TO RUN THE IMPORTER NOW"
     agency.import_geoloqi_layer
     agency.import_geoloqi_places gtfs_path
@@ -48,37 +48,35 @@ class Agency < Sequel::Model
     # Check for existing
     layer = app_session.get('layer/list')[:layers].select {|l| l[:name] == real_name}.first
 
-
-    # Deleting start
-    places = app_session.get("place/list?layer_id=#{layer[:layer_id]}&limit=3000")[:places]
-
-    app_session.batch do
-      places.each {|p| post "place/delete/#{p[:place_id]}"}
-    end
-    # Deleting end
-
+    # If layer exists, delete existing places.
 
     if layer.nil?
       layer = app_session.post 'layer/create', layer_args
     else
       layer = app_session.post "layer/update/#{layer[:layer_id]}", layer_args
+
+      places = app_session.get("place/list?layer_id=#{layer[:layer_id]}&limit=3000")[:places]
+
+      app_session.batch do
+        places.each {|p| post "place/delete/#{p[:place_id]}"}
+      end
+
+      layer_triggers = app_session.get('trigger/list', layer_id: layer[:layer_id])[:triggers]
+
+      layer_triggers.each do |t|
+        app_session.post "trigger/delete/#{t[:trigger_id]}"
+      end
+
+      app_session.post 'trigger/create', {
+        layer_id: layer[:layer_id],
+        type: 'callback',
+        callback: $config.trigger_url,
+        trigger_after: 20
+      }
     end
-    
+
     update geoloqi_layer_id: layer[:layer_id]
 
-    layer_triggers = app_session.get('trigger/list', layer_id: layer[:layer_id])[:triggers]
-
-    layer_triggers.each do |t|
-      app_session.post "trigger/delete/#{t[:trigger_id]}"
-    end
-
-    app_session.post 'trigger/create', {
-      layer_id: layer[:layer_id],
-      type: 'callback',
-      callback: $config.trigger_url,
-      trigger_after: 20
-    }
-    
     true
   end
 
@@ -127,7 +125,7 @@ class Agency < Sequel::Model
         else
           place = post "place/update/#{place[:place_id]}", place_args
         end
-        
+
         Kernel.print "#{place.nil? ? 'CREATING' : 'UPDATING'} #{place_args[:name]}, "
       end
 
